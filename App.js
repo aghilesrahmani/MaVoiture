@@ -1,4 +1,4 @@
-// In App.js in a new project
+// Aghiles RAHMANI ariles.rahmani@gmail.com
 
 import * as React from 'react';
 import { View,StyleSheet, Text, Button, NavigatorIOS, ImageBackground } from 'react-native';
