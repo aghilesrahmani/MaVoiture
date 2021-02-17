@@ -16,7 +16,7 @@ function verif(x){
 
 function HomeScreen({navigation}) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
       <ImageBackground
       source={require('/Users/antoine/test1/voiture.jpg')}
       style={styles.img}>
@@ -25,20 +25,28 @@ function HomeScreen({navigation}) {
 
       <TextInput style={styles.inputText} placeholder={'Email'} placeholderTextColor='white' keyboardType='email-address'></TextInput>
       <TextInput style={styles.inputText} placeholder={'Password'} secureTextEntry placeholderTextColor='white'/>
-      <Button 
-      style={styles.btn}
-      title='Log In'
-      onPress={()=> navigation.navigate('InterfaceCar')}
       
-      ></Button>
-      <Button 
-      style={styles.btn}
-      title='S"inscrire'
-      onPress={()=> navigation.navigate('Inscription')}
+      <View  style={styles.btn} flexDirection='row-reverse' >
+        <Button style={styles.btn}
+          title='LogIn'
+          color='black'
+          onPress={()=> navigation.navigate('InterfaceCar')}> 
+        </Button>
       
-      ></Button>
-
+      <View marginRight='50%'>
+        <Button  marginRight='30%'
+         title='Inscription'
+         color='black'
+          onPress={()=> navigation.navigate('Inscription')}>
+        </Button>
+        </View>
+      </View>
     </View>
+
+    
+
+
+
   );
 }
 
@@ -53,7 +61,7 @@ function InterfaceCar({navigation}){
 
       <Button
       title='Search'
-      onPress={() => navigation.navigate('')}/>
+      onPress={() => navigation.push('InterfaceCar')}/>
 
     </View>
   )
@@ -65,11 +73,10 @@ function Inscription({navigation}) {
       <TextInput style={styles.inputText} placeholder='Nom de famille' placeholderTextColor='white' returnKeyType='next'></TextInput>
       <TextInput style={styles.inputText} placeholder='Prenom' placeholderTextColor='white' returnKeyType='next'></TextInput>
       <TextInput style={styles.inputText} placeholder='Num Telephone' placeholderTextColor='white' keyboardType='number-pad' returnKeyType='next'></TextInput>
-
       <TextInput style={styles.inputText} placeholder='E-mail' placeholderTextColor='white' keyboardType='email-address'></TextInput>
-
       <TextInput style={styles.inputText} placeholder='Mot de passe' secureTextEntry placeholderTextColor='white' returnKeyType='next'></TextInput>
       <TextInput style={styles.inputText} placeholder='confirmation mot de passe' secureTextEntry placeholderTextColor='white' returnKeyType='go'></TextInput>
+      
       <Button 
         title='Envoi' 
         onPress={() => navigation.navigate('Home')}
@@ -116,8 +123,14 @@ const styles = StyleSheet.create({
 
   },
   btn:{
-    color:'black',
-    backgroundColor:'black'
+    color:'white',  
+    width:300,  
+    justifyContent:'center',
+  
+    borderRadius:20,
+    marginVertical:-10,
+    marginHorizontal:80,
+    
   }
 })
 export default App;
