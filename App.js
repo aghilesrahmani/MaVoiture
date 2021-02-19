@@ -1,11 +1,12 @@
 // Aghiles RAHMANI ariles.rahmani@gmail.com
 
 import * as React from 'react';
-import { View,StyleSheet, Text, Button, NavigatorIOS, ImageBackground } from 'react-native';
+import { View,StyleSheet, Text, Button, NavigatorIOS, ImageBackground, SafeAreaView ,InputAccessoryView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { TextInput } from 'react-native-gesture-handler';
-
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer'
+import { useState } from 'react';
 
 function verif(x){
   if(x.length() != 0);
@@ -14,7 +15,17 @@ function verif(x){
   };
 }
 
+function DrawerContent(props) {
+  return(
+    <View>
+      <Text>ceci est un test</Text>
+    </View>
+  )
+}
+
 function HomeScreen({navigation}) {
+  const [name, setName] = useState('');
+
   return (
     <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
       <ImageBackground
@@ -23,14 +34,14 @@ function HomeScreen({navigation}) {
 
       </ImageBackground>
 
-      <TextInput style={styles.inputText} placeholder={'Email'} placeholderTextColor='white' keyboardType='email-address'></TextInput>
+      <TextInput onChangeText={(val) => setName(val)} style={styles.inputText} placeholder={'Email'} placeholderTextColor='white' keyboardType='email-address'></TextInput>
       <TextInput style={styles.inputText} placeholder={'Password'} secureTextEntry placeholderTextColor='white'/>
       
       <View  style={styles.btn} flexDirection='row-reverse' >
         <Button style={styles.btn}
           title='LogIn'
           color='black'
-          onPress={()=> navigation.navigate('InterfaceCar')}> 
+          onPress={()=> navigation.navigate('InterfaceCar', {name })}> 
         </Button>
       
       <View marginRight='50%'>
@@ -43,30 +54,80 @@ function HomeScreen({navigation}) {
       </View>
     </View>
 
-    
-
-
-
   );
 }
 
 
-function InterfaceCar({navigation}){
-  return(
-    <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
-      <TextInput style={styles.inputText} placeholder='Marque du vehicule' placeholderTextColor='white'></TextInput>
-      <TextInput style={styles.inputText} placeholder='Model' placeholderTextColor='white'></TextInput>
-      <TextInput style={styles.inputText} placeholder='prix' placeholderTextColor='white' keyboardType='numeric'></TextInput>
-      <TextInput style={styles.inputText} placeholder='dispoibilite' placeholderTextColor='white' ></TextInput>
+function InterfaceCar({route, navigation}){
+  const {name, otherParam} = route.params;
+  const [marque, setMarque] = useState('');
+  const [model, setModel] = useState('');
+  const [prix, setPrix] = useState('');
+  const [Dispo, setDispo] = useState('');
+ 
+  return( 
+    <View keyboardDismissMode='interactive' style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+      <TextInput onChangeText={(val) => setMarque(val)} style={styles.inputText} placeholder='Marque du vehicule'  placeholderTextColor='white'></TextInput>
+      <TextInput onChangeText={(val) => setModel(val)} style={styles.inputText} placeholder='Model' placeholderTextColor='white'></TextInput>
+      <TextInput onChangeText={(val) => setPrix(val)} style={styles.inputText} placeholder='prix' placeholderTextColor='white' keyboardType='numeric'></TextInput>
+      <TextInput onChangeText={(val) => setDispo(val)} style={styles.inputText} placeholder='disponibilité' placeholderTextColor='white' ></TextInput>
 
       <Button
       title='Search'
-      onPress={() => navigation.push('InterfaceCar')}/>
+      onPress={() => navigation.navigate('Resultat',{marque, model, prix, Dispo})}/>
 
     </View>
   )
 };
 
+function Resultat({route, navigation}){
+  
+  const {marque, otherParams} = route.params;
+  const {model, otherParamss} = route.params;
+  const {prix, otherParamsss} = route.params;
+  const {Dispo, otherParamssss} = route.params;
+
+
+  return(
+    <SafeAreaView>
+    <ScrollView   style={styles.Resultat} >
+      <View flexDirection='row'>
+        <Text style={styles.text} >marque :{JSON.stringify(marque)}</Text>
+        <Text style={styles.text}>Model :{JSON.stringify(model)}</Text>
+      </View>
+      <View flexDirection='row'>
+        <Text style={styles.text}>Prix :{JSON.stringify(prix)}</Text>
+        <Text style={styles.text}>Dispoibilite :{JSON.stringify(Dispo)}</Text>
+      </View>
+      <View style={styles.Res} >
+        <Text>golf disponible</Text>
+      </View>
+      <View style={styles.Res} >
+        <Text>golf disponible</Text>
+      </View>
+      <View style={styles.Res} >
+        <Text>golf disponible</Text>
+      </View> 
+      <View style={styles.Res} >
+        <Text>golf disponible</Text>
+      </View>
+      <View style={styles.Res} >
+        <Text>golf disponible</Text>
+      </View>
+      <View style={styles.Res} >
+        <Text>golf disponible</Text>
+      </View>
+      <View style={styles.Res} >
+        <Text>golf disponible</Text>
+      </View>
+      <View style={styles.Res} >
+        <Text>golf disponible</Text>
+      </View>
+
+    </ScrollView>
+    </SafeAreaView>
+  );
+}
 function Inscription({navigation}) {
   return(
     <View style={{ flex:1, alignItems: 'center', justifyContent:'center'}}>
@@ -93,9 +154,22 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
+        
+        <Stack.Screen 
+          name="Home" 
+          component={HomeScreen}  
+          options={{ 
+              title:'Louer sa voiture', 
+              mode:'float',
+              headerStyle:{ backgroundColor:'gray'}, 
+              headerRight:() => (<Button title='info'/>)}}/>
+
         <Stack.Screen name="Inscription" component={Inscription} />
+        
         <Stack.Screen name="InterfaceCar" component={InterfaceCar}/>
+
+        <Stack.Screen name="Resultat" component={Resultat}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -131,6 +205,32 @@ const styles = StyleSheet.create({
     marginVertical:-10,
     marginHorizontal:80,
     
+  },
+  text:{
+    borderRadius:20,
+    width:'49.25%',
+    height:25,
+    fontSize:15,
+    color:'white',
+    fontWeight:'bold',
+    backgroundColor:'#5B5F6D',
+    margin:1,
+    marginLeft:1,
+    //alignItems:'center',
+    //justifyContent:'center',
+    borderRadius:5,
+  },
+  
+
+  Res:{
+    width:'99%',
+    height:100,
+    borderRadius:20,
+    backgroundColor:'#373E55',
+    margin:2,
+    alignItems:'center',
+    justifyContent:'center'
+
   }
 })
 export default App;
