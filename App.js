@@ -1,19 +1,15 @@
 // Aghiles RAHMANI ariles.rahmani@gmail.com
+//
 
 import * as React from 'react';
-import { View,StyleSheet, Text, Button, NavigatorIOS, ImageBackground, SafeAreaView ,InputAccessoryView} from 'react-native';
+import { View,StyleSheet, Text, Button, NavigatorIOS, ImageBackground, SafeAreaView ,InputAccessoryView,Image,DatePickerIOS} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer'
 import { useState } from 'react';
+import DatePicker from 'react-native-datepicker';
 
-function verif(x){
-  if(x.length() != 0);
-  if(x.length()== 0){
-
-  };
-}
 
 function DrawerContent(props) {
   return(
@@ -64,6 +60,8 @@ function InterfaceCar({route, navigation}){
   const [model, setModel] = useState('');
   const [prix, setPrix] = useState('');
   const [Dispo, setDispo] = useState('');
+
+  const [chosenDate, setChosenDate] = useState(new Date());
  
   return( 
     <View keyboardDismissMode='interactive' style={{flex:1, alignItems:'center', justifyContent:'center'}}>
@@ -71,6 +69,17 @@ function InterfaceCar({route, navigation}){
       <TextInput onChangeText={(val) => setModel(val)} style={styles.inputText} placeholder='Model' placeholderTextColor='white'></TextInput>
       <TextInput onChangeText={(val) => setPrix(val)} style={styles.inputText} placeholder='prix' placeholderTextColor='white' keyboardType='numeric'></TextInput>
       <TextInput onChangeText={(val) => setDispo(val)} style={styles.inputText} placeholder='disponibilité' placeholderTextColor='white' ></TextInput>
+
+      <View style={styles.date}>
+        <DatePickerIOS
+        
+          date={chosenDate}
+          onDateChange={setChosenDate}
+          is24Hour={true}
+        
+        />
+
+      </View>
 
       <Button
       title='Search'
@@ -91,7 +100,8 @@ function Resultat({route, navigation}){
   return(
     <SafeAreaView>
     <ScrollView   style={styles.Resultat} >
-      <View flexDirection='row'>
+    <View style={styles.haut}  >
+      <View flexDirection='row' borderRadius='5'>
         <Text style={styles.text} >marque :{JSON.stringify(marque)}</Text>
         <Text style={styles.text}>Model :{JSON.stringify(model)}</Text>
       </View>
@@ -99,6 +109,7 @@ function Resultat({route, navigation}){
         <Text style={styles.text}>Prix :{JSON.stringify(prix)}</Text>
         <Text style={styles.text}>Dispoibilite :{JSON.stringify(Dispo)}</Text>
       </View>
+      </View>  
       <View style={styles.Res} >
         <Text>golf disponible</Text>
       </View>
@@ -122,6 +133,14 @@ function Resultat({route, navigation}){
       </View>
       <View style={styles.Res} >
         <Text>golf disponible</Text>
+      </View>
+
+      <View>
+        <Button
+          title='Reserver'
+        >
+
+        </Button>
       </View>
 
     </ScrollView>
@@ -150,6 +169,16 @@ function Inscription({navigation}) {
 
 const Stack = createStackNavigator();
 
+function Logotitle() { //ajout du logo à la place du titre, cette fonction est à ajouter dans les parametres options du stack.screen
+  return(
+    <Image
+      style={{width: 230, height:50}}
+      source={require('/Users/antoine/test1/pngCar.png')}
+    />
+  );
+  }
+
+
 function App() {
   return (
     <NavigationContainer>
@@ -159,12 +188,14 @@ function App() {
           name="Home" 
           component={HomeScreen}  
           options={{ 
+            headerTransparent:'true',
+              headerTitle: props => <Logotitle />,
               title:'Louer sa voiture', 
               mode:'float',
               headerStyle:{ backgroundColor:'gray'}, 
               headerRight:() => (<Button title='info'/>)}}/>
 
-        <Stack.Screen name="Inscription" component={Inscription} />
+        <Stack.Screen name="Inscription" component={Inscription} options={{mode:'modal'}} />
         
         <Stack.Screen name="InterfaceCar" component={InterfaceCar}/>
 
@@ -206,14 +237,22 @@ const styles = StyleSheet.create({
     marginHorizontal:80,
     
   },
+  haut:{
+    backgroundColor:'#7B8D93',
+    borderRadius:15,
+    width:'99%',
+    margin:1,
+    display:'flex'
+
+  },
   text:{
     borderRadius:20,
     width:'49.25%',
     height:25,
     fontSize:15,
-    color:'white',
+    color:'black',
     fontWeight:'bold',
-    backgroundColor:'#5B5F6D',
+    //backgroundColor:'#7B8D93',
     margin:1,
     marginLeft:1,
     //alignItems:'center',
@@ -230,6 +269,15 @@ const styles = StyleSheet.create({
     margin:2,
     alignItems:'center',
     justifyContent:'center'
+
+  },
+  date:{
+    width:230,
+    height:40,
+    borderRadius:20,
+    justifyContent:'center',
+    backgroundColor:'black'
+    //alignItems:'center'
 
   }
 })
