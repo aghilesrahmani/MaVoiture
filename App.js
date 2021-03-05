@@ -2,12 +2,13 @@
 //
 
 import * as React from 'react';
-import { View,StyleSheet, Text, Button, NavigatorIOS, ImageBackground, SafeAreaView ,InputAccessoryView,Image,DatePickerIOS} from 'react-native';
+import { View,StyleSheet, Text, Button, NavigatorIOS,DatePickerIOS, ImageBackground, SafeAreaView ,InputAccessoryView,Image} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer'
 import { useState } from 'react';
+//import DatePickerIOS from '@react-native-community/datetimepicker';
 import DatePicker from 'react-native-datepicker';
 
 
@@ -23,31 +24,58 @@ function HomeScreen({navigation}) {
   const [name, setName] = useState('');
 
   return (
-    <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1, /*alignItems: 'center', justifyContent: 'center'*/ }}>
       <ImageBackground
       source={require('/Users/antoine/test1/voiture.jpg')}
       style={styles.img}>
 
       </ImageBackground>
 
+      <View flexDirection='column' style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+ 
+      <View  flexDirection='column' style={{alignItems: 'center', justifyContent: 'center'}}>
       <TextInput onChangeText={(val) => setName(val)} style={styles.inputText} placeholder={'Email'} placeholderTextColor='white' keyboardType='email-address'></TextInput>
       <TextInput style={styles.inputText} placeholder={'Password'} secureTextEntry placeholderTextColor='white'/>
       
-      <View  style={styles.btn} flexDirection='row-reverse' >
-        <Button style={styles.btn}
-          title='LogIn'
-          color='black'
-          onPress={()=> navigation.navigate('InterfaceCar', {name })}> 
-        </Button>
+      </View>
+
+          <View  style={styles.btn} flexDirection='row'  style={{  alignItems: 'center', justifyContent: 'center' }}  >
+             <Button style={styles.btn}
+                title='LogIn'
+                color='black'
+                onPress={()=> navigation.navigate('InterfaceCar', {name })}> 
+             </Button>
       
-      <View marginRight='50%'>
+      
         <Button  marginRight='30%'
          title='Inscription'
          color='black'
           onPress={()=> navigation.navigate('Inscription')}>
         </Button>
-        </View>
+        
       </View>
+     
+      
+
+      </View>
+
+      <View flexDirection='row' style={styles.reseauSoc}>
+        <View>
+        <Image source={require('/Users/antoine/test1/logo_twitter.png')} 
+          style={styles.rsSoc}
+        />
+        </View>
+        <View>
+        <Image source={require('/Users/antoine/test1/logo_instagram.png')} 
+          style={styles.rsSoc}
+        />
+        </View>
+        <View>
+        <Image source={require('/Users/antoine/test1/logo_facebook.png')} 
+          style={styles.rsSoc}
+        />
+        </View>
+        </View>
     </View>
 
   );
@@ -64,20 +92,24 @@ function InterfaceCar({route, navigation}){
   const [chosenDate, setChosenDate] = useState(new Date());
  
   return( 
-    <View keyboardDismissMode='interactive' style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+    <View  style={{flex:1, alignItems:'center', justifyContent:'center'}}>
       <TextInput onChangeText={(val) => setMarque(val)} style={styles.inputText} placeholder='Marque du vehicule'  placeholderTextColor='white'></TextInput>
       <TextInput onChangeText={(val) => setModel(val)} style={styles.inputText} placeholder='Model' placeholderTextColor='white'></TextInput>
       <TextInput onChangeText={(val) => setPrix(val)} style={styles.inputText} placeholder='prix' placeholderTextColor='white' keyboardType='numeric'></TextInput>
       <TextInput onChangeText={(val) => setDispo(val)} style={styles.inputText} placeholder='disponibilité' placeholderTextColor='white' ></TextInput>
 
-      <View style={styles.date}>
+      <View style={styles.date} >
+
+      <View flexDirection='column'>
         <DatePickerIOS
         
           date={chosenDate}
           onDateChange={setChosenDate}
-          is24Hour={true}
+          mode='date'
         
         />
+        </View>
+       
 
       </View>
 
@@ -99,8 +131,8 @@ function Resultat({route, navigation}){
 
   return(
     <SafeAreaView>
-    <ScrollView   style={styles.Resultat} >
-    <View style={styles.haut}  >
+    <ScrollView   style={styles.Resultat}  backgroundColor='black' >
+    <View style={styles.haut} backgroundColor='white' >
       <View flexDirection='row' borderRadius='5'>
         <Text style={styles.text} >marque :{JSON.stringify(marque)}</Text>
         <Text style={styles.text}>Model :{JSON.stringify(model)}</Text>
@@ -190,6 +222,7 @@ function App() {
           options={{ 
             headerTransparent:'true',
               headerTitle: props => <Logotitle />,
+              
               title:'Louer sa voiture', 
               mode:'float',
               headerStyle:{ backgroundColor:'gray'}, 
@@ -248,7 +281,7 @@ const styles = StyleSheet.create({
   text:{
     borderRadius:20,
     width:'49.25%',
-    height:25,
+    height:45,
     fontSize:15,
     color:'black',
     fontWeight:'bold',
@@ -263,22 +296,38 @@ const styles = StyleSheet.create({
 
   Res:{
     width:'99%',
-    height:100,
+    height:150,
     borderRadius:20,
-    backgroundColor:'#373E55',
+    //backgroundColor:'#373E55',
+    backgroundColor:'white',
     margin:2,
     alignItems:'center',
     justifyContent:'center'
 
   },
   date:{
-    width:230,
+    //flex:1,
+    width:130,
     height:40,
     borderRadius:20,
     justifyContent:'center',
-    backgroundColor:'black'
+    //backgroundColor:'black'
     //alignItems:'center'
 
+  },
+  rsSoc:{
+    width:50,
+    height:50,
+    //:10,
+    borderRadius:20,
+    justifyContent:'space-between',
+  alignItems:'center'  },
+
+  reseauSoc:{
+    margin:20,
+    
+    justifyContent:'flex-end',
+    justifyContent:'center'
   }
 })
 export default App;
