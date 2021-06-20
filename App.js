@@ -2,22 +2,18 @@
 //
 
 import * as React from 'react';
-import { View,StyleSheet, Text, Button, NavigatorIOS,DatePickerIOS, ImageBackground, SafeAreaView ,InputAccessoryView,Image} from 'react-native';
+import { View,StyleSheet, Text, Button, NavigatorIOS,DatePickerIOS, ImageBackground, SafeAreaView ,InputAccessoryView,Image,TouchableHighlight} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer'
+import { BorderlessButton, ScrollView, TextInput } from 'react-native-gesture-handler';
+import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import { useState } from 'react';
 //import DatePickerIOS from '@react-native-community/datetimepicker';
 import DatePicker from 'react-native-datepicker';
 
-
-function DrawerContent(props) {
-  return(
-    <View>
-      <Text>ceci est un test</Text>
-    </View>
-  )
+var tab=['un','deux'];
+for (var index =0; index<10;index++){
+  console.log(index);
 }
 
 function HomeScreen({navigation}) {
@@ -55,27 +51,31 @@ function HomeScreen({navigation}) {
         
       </View>
      
-      
-
       </View>
 
-      <View flexDirection='row' style={styles.reseauSoc}>
+      <View flexDirection='row' style={styles.reseauSoc} >
         <View>
+        
         <Image source={require('/Users/antoine/test1/logo_twitter.png')} 
           style={styles.rsSoc}
         />
         </View>
-        <View>
+        <View flexDirection='row'>
+        
         <Image source={require('/Users/antoine/test1/logo_instagram.png')} 
           style={styles.rsSoc}
         />
+       
         </View>
+        
         <View>
         <Image source={require('/Users/antoine/test1/logo_facebook.png')} 
           style={styles.rsSoc}
+          
         />
         </View>
-        </View>
+       
+        </View> 
     </View>
 
   );
@@ -113,7 +113,7 @@ function InterfaceCar({route, navigation}){
 
       </View>
 
-      <Button
+      <Button style={{}}
       title='Search'
       onPress={() => navigation.navigate('Resultat',{marque, model, prix, Dispo})}/>
 
@@ -127,7 +127,6 @@ function Resultat({route, navigation}){
   const {model, otherParamss} = route.params;
   const {prix, otherParamsss} = route.params;
   const {Dispo, otherParamssss} = route.params;
-
 
   return(
     <SafeAreaView>
@@ -143,16 +142,59 @@ function Resultat({route, navigation}){
       </View>
       </View>  
       <View style={styles.Res} >
-        <Text>golf disponible</Text>
+      <Text>Porsch</Text>
+        <Image source={require('/Users/antoine/test1/car_1.png')} 
+          style={styles.results}
+        />
+        <Text>Disponnible à partir du : 02-Mars-2021 </Text>
+        <Text>Societe de location : Sixt</Text>
+        <Text>Prix : 100 euros</Text>
+        <Button 
+        title='Choisir'
+        />
+
       </View>
+
       <View style={styles.Res} >
-        <Text>golf disponible</Text>
-      </View>
+      <Text>Clio IV</Text>
+
+      <Image source={require('/Users/antoine/test1/clio-iv.png')} 
+          style={styles.results}
+        />
+        <Text>Disponnible à partir du : 02-Septembre-2021 </Text>
+        <Text>Societe de location : Hertz</Text>
+        <Text>Prix : 220 euros</Text>
+        <Button 
+        title='Choisir'
+        />  
+
+        </View>
       <View style={styles.Res} >
-        <Text>golf disponible</Text>
+        <Text>Peugeot 308</Text>
+      <Image source={require('/Users/antoine/test1/peugeot_308.png')} 
+          style={styles.results}
+        />
+        <Text>Disponnible à partir du : 23-Mai-2021 </Text>
+        <Text>Societe de location : Sixt</Text>
+        <Text>Prix : 90 euros</Text>
+        <Button 
+        title='Choisir'
+        />  
+        
       </View> 
       <View style={styles.Res} >
-        <Text>golf disponible</Text>
+      <Text>Audi A1</Text>
+
+      <Image source={require('/Users/antoine/test1/audi_A1.png')} 
+          style={styles.results}
+        />
+        <Text>Disponnible à partir du : 02-Avril-2021 </Text>
+        <Text>Societe de location : Hertz</Text>
+        <Text>Prix : 120 euros</Text>
+        <Button 
+        title='Choisir'
+        />  
+
       </View>
       <View style={styles.Res} >
         <Text>golf disponible</Text>
@@ -168,6 +210,7 @@ function Resultat({route, navigation}){
       </View>
 
       <View>
+       
         <Button
           title='Reserver'
         >
@@ -264,7 +307,7 @@ const styles = StyleSheet.create({
     color:'white',  
     width:300,  
     justifyContent:'center',
-  
+    fontWeight:'bold',
     borderRadius:20,
     marginVertical:-10,
     marginHorizontal:80,
@@ -278,6 +321,7 @@ const styles = StyleSheet.create({
     display:'flex'
 
   },
+
   text:{
     borderRadius:20,
     width:'49.25%',
@@ -285,47 +329,45 @@ const styles = StyleSheet.create({
     fontSize:15,
     color:'black',
     fontWeight:'bold',
-    //backgroundColor:'#7B8D93',
     margin:1,
     marginLeft:1,
-    //alignItems:'center',
-    //justifyContent:'center',
     borderRadius:5,
   },
   
-
   Res:{
     width:'99%',
-    height:150,
+    height:347,
     borderRadius:20,
-    //backgroundColor:'#373E55',
     backgroundColor:'white',
     margin:2,
     alignItems:'center',
     justifyContent:'center'
-
   },
+
   date:{
-    //flex:1,
     width:130,
     height:40,
     borderRadius:20,
     justifyContent:'center',
-    //backgroundColor:'black'
-    //alignItems:'center'
-
   },
+
   rsSoc:{
     width:50,
     height:50,
-    //:10,
+    borderRadius:20,
+    justifyContent:'space-between',
+  alignItems:'center'  
+},
+
+  results:{
+    width:350,
+    height:175,
     borderRadius:20,
     justifyContent:'space-between',
   alignItems:'center'  },
 
   reseauSoc:{
-    margin:20,
-    
+    margin:25,
     justifyContent:'flex-end',
     justifyContent:'center'
   }
